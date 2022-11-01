@@ -13,9 +13,14 @@ public class HomeController {
         this.userService = userService;
     }
 
-    @GetMapping({"/", "home"})
+    @GetMapping({"/home"})
     public String home(Model model) {
         model.addAttribute("users", userService.getAll());
         return "home";
+    }
+
+    @GetMapping("/")
+    public String getLoginPage(){
+        return "login";
     }
 }
