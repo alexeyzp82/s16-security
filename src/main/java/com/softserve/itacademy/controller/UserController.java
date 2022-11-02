@@ -3,7 +3,9 @@ package com.softserve.itacademy.controller;
 import com.softserve.itacademy.model.User;
 import com.softserve.itacademy.service.RoleService;
 import com.softserve.itacademy.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,21 +25,22 @@ public class UserController {
         this.userService = userService;
         this.roleService = roleService;
     }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/create")
-    @PreAuthorize("hasAuthority('user:read')")
     public String create(Model model) {
         model.addAttribute("user", new User());
         return "create-user";
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('user:write')")
     public String create(@Validated @ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
             return "create-user";
         }
-        user.setPassword(user.getPassword());
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleService.readById(2));
         User newUser = userService.create(user);
         return "redirect:/todos/all/users/" + newUser.getId();
