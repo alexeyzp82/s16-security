@@ -6,6 +6,7 @@ import com.softserve.itacademy.model.User;
 import com.softserve.itacademy.service.TaskService;
 import com.softserve.itacademy.service.ToDoService;
 import com.softserve.itacademy.service.UserService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,8 +96,8 @@ public class ToDoController {
     }
 
     @GetMapping("/all/users/{user_id}")
-//    @PreAuthorize("hasAuthority('todo:read') and authentication.details.id==#userId")
-    public String getAll(@PathVariable("user_id") long userId, Model model) {
+    @PreAuthorize("hasAuthority('todo:write') or #id==authentication.principal.id")
+    public String getAll(@PathVariable("user_id") @Param("id") long userId, Model model) {
         List<ToDo> todos = todoService.getByUserId(userId);
         model.addAttribute("todos", todos);
         model.addAttribute("user", userService.readById(userId));
