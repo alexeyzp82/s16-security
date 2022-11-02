@@ -57,14 +57,14 @@ public class Role {
                 "} ";
     }
 
-    public Set<SimpleGrantedAuthority> getPermissions() {
+    public List<SimpleGrantedAuthority> getPermissions() {
         Set<Permissions> permissions = Sets.newHashSet();
         if (name.equals("ADMIN")){
-            permissions = Sets.newHashSet(USER_READ, USER_WRITE, TASK_WRITE, TASK_READ);
+            permissions = Sets.newHashSet(USER_READ, USER_WRITE, TASK_WRITE, TASK_READ, TODO_READ, TODO_WRITE, ROLE_READ, ROLE_WRITE);
         }
         if (name.equals("USER")){
-            permissions = Sets.newHashSet();
+            permissions = Sets.newHashSet(USER_READ, TASK_READ, TASK_WRITE, TODO_READ);
         }
-        return permissions.stream().map(permission -> new SimpleGrantedAuthority(permission.getPermission())).collect(Collectors.toSet());
+        return permissions.stream().map(permission -> new SimpleGrantedAuthority(permission.getPermission())).collect(Collectors.toList());
     }
 }

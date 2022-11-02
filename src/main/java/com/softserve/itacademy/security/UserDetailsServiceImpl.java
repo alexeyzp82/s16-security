@@ -25,6 +25,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User doesn't exists.");
         }
-        return SecurityUser.fromUser(user);
+//        SecurityUser result = new SecurityUser(user.getId(), user.getEmail(), user.getPassword(), user.getRole().getPermissions(), true);
+//        return SecurityUser.fromUser(user);
+        return new SecurityUser(user.getId(), user.getEmail(), user.getPassword(), user.getRole().getPermissions(), true);
     }
 }

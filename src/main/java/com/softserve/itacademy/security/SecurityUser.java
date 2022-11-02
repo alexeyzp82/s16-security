@@ -1,6 +1,5 @@
 package com.softserve.itacademy.security;
 
-import com.softserve.itacademy.model.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,14 +15,15 @@ public class SecurityUser implements UserDetails {
     private final String password;
     private final List<SimpleGrantedAuthority> authorities;
     private final boolean isActive;
+    private final Long id;
 
-    public SecurityUser(String email, String password, List<SimpleGrantedAuthority> authorities, boolean isActive) {
+    public SecurityUser(Long id, String email, String password, List<SimpleGrantedAuthority> authorities, boolean isActive) {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
         this.isActive = isActive;
+        this.id = id;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -60,12 +60,11 @@ public class SecurityUser implements UserDetails {
         return isActive;
     }
 
-    public static UserDetails fromUser(User user) {
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), true, true, true, true, user.getRole().getPermissions()
-        );
-    }
-
-
+    // Maybe deprecated
+//    public static UserDetails fromUser(User user) {
+//        return new org.springframework.security.core.userdetails.User(
+//                user.getEmail(), user.getPassword(), true, true, true, true, user.getRole().getPermissions()
+//        );
+//    }
 
 }
