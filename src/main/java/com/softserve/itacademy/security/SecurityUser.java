@@ -2,7 +2,6 @@ package com.softserve.itacademy.security;
 
 import com.softserve.itacademy.model.User;
 import lombok.Data;
-import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,10 +60,12 @@ public class SecurityUser implements UserDetails {
         return isActive;
     }
 
-    public static UserDetails fromUser(User user){
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getEmail(), user.getPassword(), true, true, true, true, user.getRole()
-//        );
-        return null;
+    public static UserDetails fromUser(User user) {
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), true, true, true, true, user.getRole().getPermissions()
+        );
     }
+
+
+
 }

@@ -1,8 +1,16 @@
 package com.softserve.itacademy.model;
 
+import com.google.common.collect.Sets;
+import com.softserve.itacademy.security.Permissions;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.softserve.itacademy.security.Permissions.*;
 
 @Entity
 @Table(name = "roles")
@@ -49,4 +57,14 @@ public class Role {
                 "} ";
     }
 
+    public Set<SimpleGrantedAuthority> getPermissions() {
+        Set<Permissions> permissions = Sets.newHashSet();
+        if (name.equals("ADMIN")){
+            permissions = Sets.newHashSet(USER_READ, USER_WRITE, TASK_WRITE, TASK_READ);
+        }
+        if (name.equals("USER")){
+            permissions = Sets.newHashSet();
+        }
+        return permissions.stream().map(permission -> new SimpleGrantedAuthority(permission.getPermission())).collect(Collectors.toSet());
+    }
 }

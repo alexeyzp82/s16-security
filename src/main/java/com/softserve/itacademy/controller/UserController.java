@@ -25,15 +25,14 @@ public class UserController {
     }
 
     @GetMapping("/create")
-//    @PreAuthorize("hasAnyRole('')")")
-    @RolesAllowed("{ADMIN}")
+    @PreAuthorize("hasAuthority('user:read')")
     public String create(Model model) {
         model.addAttribute("user", new User());
         return "create-user";
     }
 
     @PostMapping("/create")
-    @RolesAllowed("{ADMIN}")
+    @PreAuthorize("hasAuthority('user:write')")
     public String create(@Validated @ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
             return "create-user";
@@ -45,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/read")
-    @RolesAllowed("{ADMIN}")
+    @PreAuthorize("hasAuthority('user:read')")
     public String read(@PathVariable long id, Model model) {
         User user = userService.readById(id);
         model.addAttribute("user", user);
@@ -53,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/update")
-    @RolesAllowed("{ADMIN, USER}")
+    @PreAuthorize("hasAnyAuthority('user:write','user:read')")
     public String update(@PathVariable long id, Model model) {
         User user = userService.readById(id);
         model.addAttribute("user", user);
@@ -63,7 +62,7 @@ public class UserController {
 
 
     @PostMapping("/{id}/update")
-    @RolesAllowed("{ADMIN, USER}")
+    @PreAuthorize("hasAnyAuthority('user:write','user:read')")
     public String update(@PathVariable long id, Model model, @Validated @ModelAttribute("user") User user, @RequestParam("roleId") long roleId, BindingResult result) {
         User oldUser = userService.readById(id);
         if (result.hasErrors()) {
@@ -82,12 +81,14 @@ public class UserController {
 
 
     @GetMapping("/{id}/delete")
+    @PreAuthorize("hasAuthority('user:write')")
     public String delete(@PathVariable("id") long id) {
         userService.delete(id);
         return "redirect:/users/all";
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('user:write')")
     public String getAll(Model model) {
         model.addAttribute("users", userService.getAll());
         return "users-list";
