@@ -1,3 +1,15 @@
 .container {
     width: 75%;
 }
+.topbar {
+    height: 80px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+form#logoutForm{
+    text-align: center;
+}
