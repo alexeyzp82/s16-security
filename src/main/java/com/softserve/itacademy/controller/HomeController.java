@@ -1,6 +1,5 @@
 package com.softserve.itacademy.controller;
 
-import com.softserve.itacademy.service.RoleService;
 import com.softserve.itacademy.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +26,6 @@ public class HomeController {
 
     @PostMapping("/logout")
     public String logout(){
-        return "logout";
+        return "redirect:/";
     }
 }
