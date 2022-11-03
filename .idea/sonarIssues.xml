@@ -8,6 +8,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../Security4/src/main/java/com/softserve/itacademy/controller/UserController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../Security4/src/main/resources/templates/header.html">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/com/softserve/itacademy/config/SecurityConfig.java">
           <value>
             <set />
@@ -19,6 +29,26 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/com/softserve/itacademy/controller/UserController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/softserve/itacademy/model/Role.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/softserve/itacademy/security/Permissions.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/softserve/itacademy/security/SecurityUser.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/templates/header.html">
           <value>
             <set />
           </value>
