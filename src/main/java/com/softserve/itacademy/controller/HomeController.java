@@ -16,7 +16,7 @@ public class HomeController {
     }
 
     @GetMapping({"/home"})
-    @PreAuthorize("hasAuthority('users:read')")
+    @PreAuthorize("hasAuthority('all:read')")
     public String home(Model model) {
         model.addAttribute("users", userService.getAll());
         return "home";
