@@ -44,13 +44,13 @@ public class HomeController {
         Object principal = authentication.getPrincipal();
         if (principal instanceof SecurityUser) {
             User currentUser = userService.readById(((SecurityUser) principal).getId());
-            if (currentUser.getRole().getName().equals("USER")){
-                isUser=true;
+            if (currentUser.getRole().getName().equals("USER")) {
+                isUser = true;
                 return Arrays.asList(currentUser);
             }
         }
-            isUser = false;
-           return userService.getAll();
+        isUser = false;
+        return userService.getAll();
     }
 
 }

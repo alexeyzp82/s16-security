@@ -60,7 +60,7 @@ public class Role {
     public List<SimpleGrantedAuthority> getPermissions() {
         Set<Permissions> permissions = Sets.newHashSet();
         if (name.equals("ADMIN")) {
-            permissions = Sets.newHashSet(USER_READ, USER_WRITE, TASK_WRITE, TASK_READ, TODO_READ, TODO_WRITE, ROLE_READ, ROLE_WRITE, ALL_READ);
+            permissions = Sets.newHashSet(USER_READ, USER_WRITE, TASK_WRITE, TASK_READ, TODO_READ, TODO_WRITE, ROLE_READ, ROLE_WRITE);
         }
         if (name.equals("USER")) {
             permissions = Sets.newHashSet(USER_READ, TASK_READ, TASK_WRITE, TODO_READ, TODO_WRITE);

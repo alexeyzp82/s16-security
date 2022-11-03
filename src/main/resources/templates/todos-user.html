@@ -6,6 +6,11 @@
     <title>All ToDo lists of User</title>
 </head>
 <body>
+<style>
+    .userclass{
+        pointer-events: none;
+    }
+</style>
 <div th:replace="header"></div>
 <div class="col-md-offset-2 col-sm-8">
     <h2 th:text="${'All ToDo Lists of ' + user.firstName + ' ' + user.lastName}"/>
@@ -33,10 +38,10 @@
             <td th:text="${#temporals.format(todo.createdAt, 'dd.MM.yyyy HH:mm')}"/>
             <td th:text="${todo.getOwner().firstName + ' ' + todo.getOwner().lastName}"></td>
             <td>
-                <a th:href="@{|/todos/${todo.id}/update/users/${todo.owner.id}|}">Edit</a>
+                <a th:class="${user.id != todo.getOwner().getId()} ? userclass" th:href="@{|/todos/${todo.id}/update/users/${todo.owner.id}|}">Edit</a>
             </td>
             <td>
-                <a th:href="@{|/todos/${todo.id}/delete/users/${todo.owner.id}|}">Remove</a>
+                <a th:class="${user.id != todo.getOwner().getId()} ? userclass" th:href="@{|/todos/${todo.id}/delete/users/${todo.owner.id}|}">Remove</a>
             </td>
         </tr>
     </table>

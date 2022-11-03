@@ -10,7 +10,7 @@
     <nav class="navbar navbar-default">
         <div th:class="topbar">
             <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/home}">TODOs List</a>
+                <a class="navbar-brand" th:href="@{/home}">Home</a>
 
                 <a class="navbar-brand" th:href="@{/todos/all/users/{user_id}(user_id = ${#authentication.principal.id})}" >My To_Dos</a>
                 <a sec:authorize="hasAuthority('user:write')" class="navbar-brand"

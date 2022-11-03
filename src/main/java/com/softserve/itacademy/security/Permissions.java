@@ -8,8 +8,7 @@ public enum Permissions {
     TODO_READ("todo:read"),
     TODO_WRITE("todo:write"),
     ROLE_READ("role:read"),
-    ROLE_WRITE("role:write"),
-    ALL_READ("all:read");
+    ROLE_WRITE("role:write");
 
     private final String permission;
 
