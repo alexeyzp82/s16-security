@@ -26,6 +26,7 @@ public class UserController {
         this.userService = userService;
         this.roleService = roleService;
     }
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 

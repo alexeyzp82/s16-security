@@ -123,8 +123,4 @@ public class ToDoController {
         todoService.update(todo);
         return "redirect:/todos/" + id + "/tasks";
     }
-
-    private ToDo canReadById(Long id){
-        return todoService.readById(id);
-    }
 }
