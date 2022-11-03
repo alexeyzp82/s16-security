@@ -1,5 +1,6 @@
 package com.softserve.itacademy.config;
 
+import com.softserve.itacademy.exception.WebAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -19,14 +20,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-//@EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final WebAccessDeniedHandler accessDeniedHandler;
 
     @Autowired
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService){
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, WebAccessDeniedHandler accessDeniedHandler){
         this.userDetailsService = userDetailsService;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
     @Override
@@ -49,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/");
+        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
     @Override
