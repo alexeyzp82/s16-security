@@ -33,7 +33,7 @@ public class ToDoController {
     }
 
     @GetMapping("/create/users/{owner_id}")
-    @PreAuthorize("hasAuthority('todo:write')")
+    @PreAuthorize("hasAuthority('todo:read')")
     public String create(@PathVariable("owner_id") long ownerId, Model model) {
         model.addAttribute("todo", new ToDo());
         model.addAttribute("ownerId", ownerId);
@@ -41,7 +41,7 @@ public class ToDoController {
     }
 
     @PostMapping("/create/users/{owner_id}")
-    @PreAuthorize("hasAuthority('todo:write')")
+    @PreAuthorize("hasAuthority('todo:read')")
     public String create(@PathVariable("owner_id") long ownerId, @Validated @ModelAttribute("todo") ToDo todo, BindingResult result) {
         if (result.hasErrors()) {
             return "create-todo";
@@ -53,7 +53,7 @@ public class ToDoController {
     }
 
     @GetMapping("/{id}/tasks")
-    @PreAuthorize("(hasAuthority('todo:write'))")
+    @PreAuthorize("hasAuthority('todo:read')")
     public String read(@PathVariable long id, Model model) {
         ToDo todo = todoService.readById(id);
         List<Task> tasks = taskService.getByTodoId(id);
@@ -66,16 +66,16 @@ public class ToDoController {
     }
 
     @GetMapping("/{todo_id}/update/users/{owner_id}")
-    @PreAuthorize("(hasAuthority('todo:write') or #ownerId==authentication.principal.id)")
-    public String update(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId, Model model) {
+    @PreAuthorize("hasAuthority('todo:write') or #ownerId==authentication.principal.id")
+    public String update(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") @Param("ownerId") long ownerId, Model model) {
         ToDo todo = todoService.readById(todoId);
         model.addAttribute("todo", todo);
         return "update-todo";
     }
 
     @PostMapping("/{todo_id}/update/users/{owner_id}")
-    @PreAuthorize("(hasAuthority('todo:write') or #ownerId==authentication.principal.id)")
-    public String update(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId,
+    @PreAuthorize("hasAuthority('todo:write') or #ownerId==authentication.principal.id")
+    public String update(@PathVariable("todo_id") @Param("id") long todoId, @PathVariable("owner_id") @Param("userId") long ownerId,
                          @Validated @ModelAttribute("todo") ToDo todo, BindingResult result) {
         if (result.hasErrors()) {
             todo.setOwner(userService.readById(ownerId));
@@ -89,15 +89,15 @@ public class ToDoController {
     }
 
     @GetMapping("/{todo_id}/delete/users/{owner_id}")
-    @PreAuthorize("(hasAuthority('todo:write') or #ownerId==authentication.principal.id)")
-    public String delete(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") long ownerId) {
+    @PreAuthorize("hasAuthority('todo:write') or #ownerId==authentication.principal.id")
+    public String delete(@PathVariable("todo_id") long todoId, @PathVariable("owner_id") @Param("ownerId") long ownerId) {
         todoService.delete(todoId);
         return "redirect:/todos/all/users/" + ownerId;
     }
 
     @GetMapping("/all/users/{user_id}")
-    @PreAuthorize("hasAuthority('todo:read')")
-    public String getAll(@PathVariable("user_id") @Param("id") long userId, Model model) {
+    @PreAuthorize("hasAuthority('todo:write') or #userId==authentication.principal.id")
+    public String getAll(@PathVariable("user_id") @Param("userId") long userId, Model model) {
         List<ToDo> todos = todoService.getByUserId(userId);
         model.addAttribute("todos", todos);
         model.addAttribute("user", userService.readById(userId));
@@ -105,8 +105,8 @@ public class ToDoController {
     }
 
     @GetMapping("/{id}/add")
-    @PreAuthorize("(hasAuthority('todo:write') or #ownerId==authentication.principal.id)")
-    public String addCollaborator(@PathVariable long id, @RequestParam("user_id") long userId) {
+    @PreAuthorize("hasAuthority('todo:write') or #userId==authentication.principal.id")
+    public String addCollaborator(@PathVariable long id, @RequestParam("user_id") @Param("userId") long userId) {
         ToDo todo = todoService.readById(id);
         List<User> collaborators = todo.getCollaborators();
         collaborators.add(userService.readById(userId));

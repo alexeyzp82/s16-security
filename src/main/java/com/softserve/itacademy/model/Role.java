@@ -63,7 +63,7 @@ public class Role {
             permissions = Sets.newHashSet(USER_READ, USER_WRITE, TASK_WRITE, TASK_READ, TODO_READ, TODO_WRITE, ROLE_READ, ROLE_WRITE);
         }
         if (name.equals("USER")) {
-            permissions = Sets.newHashSet(USER_READ, TASK_READ, TASK_WRITE, TODO_READ, TODO_WRITE);
+            permissions = Sets.newHashSet(USER_READ, TASK_READ, TASK_WRITE, TODO_READ);
         }
         return permissions.stream().map(permission -> new SimpleGrantedAuthority(permission.getPermission())).collect(Collectors.toList());
     }
