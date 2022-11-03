@@ -87,14 +87,14 @@ public class UserController {
 
 
     @GetMapping("/{id}/delete")
-    @PreAuthorize("hasAuthority('user:write') or #id==authentication.principal.id")
+    @PreAuthorize("hasAuthority('user:write')")
     public String delete(@PathVariable("id") @Param("id") long id) {
         userService.delete(id);
         return "redirect:/users/all";
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('users:read')")
+    @PreAuthorize("hasAuthority('user:write')")
     public String getAll(Model model) {
         model.addAttribute("users", userService.getAll());
         return "users-list";
@@ -111,7 +111,6 @@ public class UserController {
             if (result.hasErrors()) {
                 return "registration";
             }
-            Boolean successfull = true;
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRole(roleService.readById(2));
             User newUser = userService.create(user);

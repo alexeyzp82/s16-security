@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <title>Home page</title>
 </head>
+<style>
+    .userclass{
+        pointer-events: none;
+    }
+</style>
 <body>
     <div th:replace="header"></div>
     <div class="col-md-offset-2 col-sm-8">
@@ -35,13 +40,12 @@
                     <a th:href="@{|/todos/all/users/${user.id}|}" th:text="${user.firstName + ' ' + user.lastName}"/>
                 </td>
                 <td th:text="${user.email}"/>
-
                 <td>
                     <a th:href="@{|/users/${user.id}/update|}">Edit</a>
                 </td>
-                <td>
-                    <a th:href="@{|/users/${user.id}/delete|}">Remove</a>
-                </td>
+                    <td>
+                        <a th:class="${isUser} ? userclass" th:href="@{|/users/${user.id}/delete|}">Remove</a>
+                    </td>
             </tr>
         </table>
     </div>

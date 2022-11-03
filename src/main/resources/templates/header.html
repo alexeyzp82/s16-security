@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
@@ -8,15 +10,11 @@
     <nav class="navbar navbar-default">
         <div th:class="topbar">
             <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/home}">TODOs List</a>
+                <a class="navbar-brand" th:href="@{/home}">Home</a>
 
-                <a th:if="${#authorization.expression('isAuthenticated()')}" class="navbar-brand"
-                   th:href="@{/todos/all/users/${#authentication.principal}}" >My To_Dos</a>
-                <a th:if="${#authorization.expression('hasAuthority(''user:read'')')}" class="navbar-brand"
+                <a class="navbar-brand" th:href="@{/todos/all/users/{user_id}(user_id = ${#authentication.principal.id})}" >My To_Dos</a>
+                <a sec:authorize="hasAuthority('user:write')" class="navbar-brand"
                    th:href="@{/users/all}">List of Users</a>
-
-
-                <p th:text="${#authentication.principal}"></p>
 
             </div>
         </div>
