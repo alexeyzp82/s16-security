@@ -99,4 +99,22 @@ public class UserController {
         model.addAttribute("users", userService.getAll());
         return "users-list";
     }
+
+    @GetMapping("/registration")
+    public String newUserRegistration(Model model){
+        model.addAttribute("user", new User());
+        return "registration";
+    }
+
+    @PostMapping("/registration")
+    public String saveNewUser(@Validated @ModelAttribute("user") User user, BindingResult result){
+            if (result.hasErrors()) {
+                return "registration";
+            }
+            Boolean successfull = true;
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole(roleService.readById(2));
+            User newUser = userService.create(user);
+            return "redirect:/?success";
+        }
 }
